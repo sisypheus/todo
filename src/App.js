@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
+import ReactDOM from 'react-dom';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+  const [name, setname] = useState();
+
+  function namechanged(event) {
+    console.log(event.target.value);
+  }
+    return (
+      <div className="App">
+        <form>
+          <label htmlFor="newTodo">New Todo</label>
+          <input onChange={(event) => {namechanged(event); setname(event.target.value);}} id="newTodo" name="newTodo"></input>
+          <button type="submit" value="Valider" name="Valider">Valider</button>
+        </form>
+        <h1>Hello {name}</h1>
+      </div>
+    );
+  }
 
 export default App;
