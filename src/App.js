@@ -12,11 +12,13 @@ function App() {
 
   const formsubmitted = useCallback((event) => {
     event.preventDefault();
-    console.log('form submitted');
+
+    if (!newTodo.trim())
+      return;
     setTodos([
       ...todos,
       {
-        id: todos.length + 1,
+        id: todos.length,
         content: newTodo,
         done: false
       }
@@ -27,6 +29,7 @@ function App() {
   useEffect(() => {
     console.log(todos);
   }, [todos]);
+
     return (
       <div className="App">
         <form onSubmit={formsubmitted}>
@@ -35,8 +38,11 @@ function App() {
           <button type="submit" value="Valider" name="Valider">Valider</button>
         </form>
           {todos.map((todo) => (
-            <p key={todo.id}>{todo.content}</p>
-          ))
+            <li key={todo.id}>
+              <input id={todo.id} type="checkbox" onChange={console.log(todo.id)}></input>
+              {todo.content}
+            </li>
+            ))
           }
       </div>
     );
