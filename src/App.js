@@ -1,21 +1,43 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
 
 function App() {
-  const [name, setname] = useState();
+  const [newTodo, setNewTodo] = useState('');
+  const [todos, setTodos] = useState([]);
 
-  function namechanged(event) {
-    console.log(event.target.value);
-  }
+  const onNewTodoChange = useCallback((event) => {
+    setNewTodo(event.target.value);
+  }, []);
+
+  const formsubmitted = useCallback((event) => {
+    event.preventDefault();
+    console.log('form submitted');
+    setTodos([
+      ...todos,
+      {
+        id: todos.length + 1,
+        content: newTodo,
+        done: false
+      }
+    ]);
+    setNewTodo("");
+  }, [newTodo, todos]);
+
+  useEffect(() => {
+    console.log(todos);
+  }, [todos]);
     return (
       <div className="App">
-        <form>
+        <form onSubmit={formsubmitted}>
           <label htmlFor="newTodo">New Todo</label>
-          <input onChange={(event) => {namechanged(event); setname(event.target.value);}} id="newTodo" name="newTodo"></input>
+          <input onChange={onNewTodoChange} id="newTodo" name="newTodo" value={newTodo}></input>
           <button type="submit" value="Valider" name="Valider">Valider</button>
         </form>
-        <h1>Hello {name}</h1>
+          {todos.map((todo) => (
+            <p key={todo.id}>{todo.content}</p>
+          ))
+          }
       </div>
     );
   }
